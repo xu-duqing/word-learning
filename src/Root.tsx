@@ -1,17 +1,18 @@
-import './tailwind.css';
+import "./tailwind.css";
 import { Composition } from "remotion";
-import { MyComposition } from "./Composition";
+import { MainVideo } from "./components/MainVideo";
+import { textLines, videoConfig } from "./config";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
-        id="MyComp"
-        component={MyComposition}
-        durationInFrames={60}
-        fps={30}
-        width={1280}
-        height={720}
+        id="MainVideo"
+        component={MainVideo}
+        durationInFrames={textLines.length * videoConfig.durationPerLine}
+        fps={videoConfig.fps}
+        width={videoConfig.width}
+        height={videoConfig.height}
       />
     </>
   );
