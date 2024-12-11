@@ -11,49 +11,85 @@ const Container = styled(AbsoluteFill)`
 const LineContainer = styled.div<{ index: number }>`
   position: absolute;
   top: ${(props) =>
-    100 + props.index * (videoConfig.fontSize * videoConfig.lineHeight + 20)}px;
+    100 +
+    props.index * (videoConfig.fontSize * videoConfig.lineHeight + 180)}px;
   left: 100px;
   right: 100px;
 `;
 
-const ExplanationContainer = styled.div`
+const IntroContainer = styled.div`
   position: absolute;
-  bottom: 650px;
-  left: 100px;
-  right: 100px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: ${videoConfig.textColor};
-  font-size: ${videoConfig.fontSize * 1.5}px;
+  font-size: ${videoConfig.fontSize}px;
   text-align: center;
+  width: 80%;
+`;
+
+const IntroTitle = styled.h1`
+  font-size: ${videoConfig.fontSize * 1.5}px;
+  margin-bottom: 40px;
+  color: ${videoConfig.textColor};
+`;
+
+const IntroWord = styled.div`
+  margin: 20px 0;
+  font-size: ${videoConfig.fontSize * 1.2}px;
+`;
+
+const WordHighlight = styled.span<{ color: string }>`
+  color: ${(props) => props.color};
+  font-weight: bold;
 `;
 
 export const MainVideo: React.FC = () => {
-  const totalDuration = textLines.length * videoConfig.durationPerLine;
+  const mainContentDuration = textLines.length * videoConfig.durationPerLine;
+  // const totalDuration =
+  //   mainContentDuration + videoConfig.introductionDuration * 2;
+
+  const WordList = () => (
+    <IntroContainer>
+      <IntroTitle>40秒无痛记单词:</IntroTitle>
+      {textLines.map((line, index) => (
+        <IntroWord key={index}>
+          <WordHighlight color={line.highlightColor}>
+            {line.highlight[0]}
+          </WordHighlight>
+          : {line.text.split(": ")[1]}
+        </IntroWord>
+      ))}
+    </IntroContainer>
+  );
 
   return (
     <Container>
-      {textLines.map((line, index) => (
-        <LineContainer key={index} index={index}>
-          <Sequence
-            from={index * videoConfig.durationPerLine}
-            durationInFrames={
-              totalDuration - index * videoConfig.durationPerLine
-            }
-          >
-            <TextLine {...line} />
-          </Sequence>
-        </LineContainer>
-      ))}
-      <ExplanationContainer>
+      {/* 开场单词列表 */}
+      <Sequence durationInFrames={videoConfig.introductionDuration}>
+        <WordList />
+      </Sequence>
+
+      {/* 主要内容 */}
+      <Sequence from={videoConfig.introductionDuration}>
         {textLines.map((line, index) => (
-          <Sequence
-            key={index}
-            from={index * videoConfig.durationPerLine}
-            durationInFrames={videoConfig.durationPerLine}
-          >
-            {line.explanation}
-          </Sequence>
+          <LineContainer key={index} index={index}>
+            <Sequence
+              from={index * videoConfig.durationPerLine}
+              durationInFrames={
+                mainContentDuration - index * videoConfig.durationPerLine
+              }
+            >
+              <TextLine {...line} />
+            </Sequence>
+          </LineContainer>
         ))}
-      </ExplanationContainer>
+      </Sequence>
+
+      {/* 结尾单词列表 */}
+      <Sequence from={videoConfig.introductionDuration + mainContentDuration}>
+        <WordList />
+      </Sequence>
     </Container>
   );
 };

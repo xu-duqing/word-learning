@@ -6,14 +6,28 @@ interface TextLineProps {
   text: string;
   highlight: string[];
   highlightColor: string;
+  example: string;
+  translation: string;
 }
 
 const LineWrapper = styled.div<{ opacity: number }>`
   font-size: ${videoConfig.fontSize * 1.2}px;
   color: ${videoConfig.textColor};
   opacity: ${(props) => props.opacity};
-  line-height: ${videoConfig.lineHeight};
+  line-height: ${videoConfig.lineHeight * 0.8};
   transition: opacity 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const MainText = styled.div`
+  margin-bottom: 8px;
+`;
+
+const SubText = styled.div`
+  font-size: ${videoConfig.subTextFontSize}px;
+  color: ${videoConfig.subTextColor};
 `;
 
 const HighlightSpan = styled.span<{ color: string }>`
@@ -25,10 +39,11 @@ export const TextLine: React.FC<TextLineProps> = ({
   text,
   highlight,
   highlightColor,
+  example,
+  translation,
 }) => {
   const frame = useCurrentFrame();
 
-  // 使用spring创建平滑的淡入效果
   const opacity = spring({
     frame,
     fps: videoConfig.fps,
@@ -37,7 +52,6 @@ export const TextLine: React.FC<TextLineProps> = ({
     durationInFrames: 30,
   });
 
-  // 处理文本高亮
   const renderText = () => {
     let result = text;
     highlight.forEach((word) => {
@@ -57,5 +71,11 @@ export const TextLine: React.FC<TextLineProps> = ({
     });
   };
 
-  return <LineWrapper opacity={opacity}>{renderText()}</LineWrapper>;
+  return (
+    <LineWrapper opacity={opacity}>
+      <MainText>{renderText()}</MainText>
+      <SubText>例句: {example}</SubText>
+      <SubText>翻译: {translation}</SubText>
+    </LineWrapper>
+  );
 };
