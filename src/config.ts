@@ -8,8 +8,8 @@ export interface LineConfig {
 
 export const videoConfig = {
   fps: 30,
-  durationPerLine: 150,
-  introductionDuration: 150,
+  durationPerLine: 300 * 0.8,
+  introductionDuration: 300,
   width: 1080,
   height: 1920,
   backgroundColor: "#1a1a1a",
@@ -22,24 +22,24 @@ export const videoConfig = {
 
 export const textLines: LineConfig[] = [
   {
-    text: "essential: 必要的，重要的",
-    highlight: ["essential"],
+    text: "achieve: 实现，达到",
+    highlight: ["achieve"],
     highlightColor: "#FFD700",
-    example: "Water is essential for life.",
-    translation: "水是生命必需的。",
+    example: "You can achieve your goals with hard work.",
+    translation: "通过努力你可以实现自己的目标。",
   },
   {
-    text: "improve: 提高，改善",
-    highlight: ["improve"],
+    text: "challenge: 挑战，盘问",
+    highlight: ["challenge"],
     highlightColor: "#FFD700",
-    example: "I want to improve my English skills.",
-    translation: "我想提高我的英语技能。",
+    example: "This project is a big challenge for me.",
+    translation: "这个项目对我来说是一个很大的挑战。",
   },
   {
-    text: "efficient: 高效的",
-    highlight: ["efficient"],
+    text: "support: 支持，帮助",
+    highlight: ["support"],
     highlightColor: "#FFD700",
-    example: "She is very efficient at her job.",
-    translation: "她工作效率很高。",
+    example: "I appreciate your support.",
+    translation: "我很感激你的支持。",
   },
 ];

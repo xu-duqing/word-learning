@@ -11,7 +11,7 @@ const Container = styled(AbsoluteFill)`
 const LineContainer = styled.div<{ index: number }>`
   position: absolute;
   top: ${(props) =>
-    100 +
+    300 +
     props.index * (videoConfig.fontSize * videoConfig.lineHeight + 180)}px;
   left: 100px;
   right: 100px;
@@ -51,7 +51,7 @@ export const MainVideo: React.FC = () => {
 
   const WordList = () => (
     <IntroContainer>
-      <IntroTitle>40秒无痛记单词:</IntroTitle>
+      <IntroTitle>40秒记单词</IntroTitle>
       {textLines.map((line, index) => (
         <IntroWord key={index}>
           <WordHighlight color={line.highlightColor}>
